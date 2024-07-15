@@ -2,20 +2,19 @@ import client from 'prom-client';
 import express from "express";
 
 // import { middleware } from "./middeware";
-import { requestCount } from "./monitoring/requestCounter";
+// import { requestCount } from "./monitoring/requestCounter";
+import { activeUserCount  } from "./monitoring/requestGauge";
 
 const app = express();
 
 app.use(express.json());
 
 // app.use(middleware);
-app.use(requestCount);
+// app.use(requestCount);
+app.use(activeUserCount);
 
-app.get("/user", (req,res)=>{
-    let user = {
-        name: "Gujjar",
-        age: 22
-    }
+app.get("/user", async (req,res)=>{
+    await new Promise((resolve) => setTimeout(resolve, 1000))  // TO verify the Gauge
     res.send({
         name: "Rahul",
         age: "21"
